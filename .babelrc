@@ -1,0 +1,28 @@
+{
+"presets": [
+  [
+    "@babel/env",
+    {
+      "modules": false,
+      "exclude": [
+        "@babel/plugin-transform-regenerator"
+      ]
+    }
+  ]
+],
+"env": {
+  "test": {
+    "presets": [
+      [
+        "@babel/env",
+        {
+          "modules": "commonjs",
+          "exclude": [
+            "@babel/plugin-transform-regenerator"
+          ]
+        }
+      ]
+    ]
+  }
+}
+}
