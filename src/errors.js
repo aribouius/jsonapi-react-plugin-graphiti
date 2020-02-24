@@ -31,11 +31,6 @@ export class ErrorFormatter {
         continue
       }
 
-      if (error.source.pointer.indexOf('/relationships/') >= 0) {
-        data[meta.attribute] = this.formatError(error)
-        continue
-      }
-
       if (!data[meta.attribute]) {
         data[meta.attribute] = []
       }
@@ -62,23 +57,19 @@ export class ErrorFormatter {
       }
 
       let ref = data
-      item.paths.forEach((path, index) => {
+      let key = err.meta.relationship.attribute
+      let val = this.formatError(err)
+
+      item.paths.forEach((path, idx, arr) => {
         if (!ref[path]) {
-          ref[path] = Number.isInteger(item.paths[index + 1]) ? [] : {}
+          ref[path] = Number.isInteger(arr[idx + 1]) ? [] : {}
+        } else if (idx + 1 === arr.length && Array.isArray(ref[path])) {
+          ref[path] = {}
         }
         ref = ref[path]
       })
 
-      const attr = err.meta.relationship.attribute
-      const value = this.formatError(err)
-
-      if (err.source.pointer.indexOf('/relationships/') >= 0) {
-        ref[attr] = value
-      } else if (!ref[attr]) {
-        ref[attr] = [value]
-      } else {
-        ref[attr].push(value)
-      }
+      ref[key] = ref[key] ? ref[key].concat(val) : [val]
     }
 
     return data
@@ -92,10 +83,10 @@ export class ErrorFormatter {
 
       if (Array.isArray(data)) {
         data.forEach((item, index) => {
-          map.push(this.getMapObject(item, paths.concat([index, path, 'errors'])))
+          map.push(this.getMapObject(item, paths.concat([path, index])))
         })
       } else {
-        map.push(this.getMapObject(data, paths.concat([path, 'errors'])))
+        map.push(this.getMapObject(data, paths.concat([path])))
       }
     }
 
