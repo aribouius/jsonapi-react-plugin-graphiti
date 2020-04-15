@@ -114,7 +114,7 @@ export class ErrorFormatter {
   isItemMatch(item, obj) {
     return (
       item.type === obj.type &&
-      [obj.id, obj['temp-id']].indexOf(item.id) >= 0
+      [String(obj.id || ''), obj['temp-id']].indexOf(item.id) >= 0
     )
   }
 }
