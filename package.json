@@ -1,6 +1,6 @@
 {
   "name": "jsonapi-react-plugin-graphiti",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A graphiti adapter for jsonapi-react",
   "author": "aribouius",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "publish": "npm publish"
   },
   "peerDependencies": {
-    "jsonapi-react": "^0.0.3"
+    "jsonapi-react": "~0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
